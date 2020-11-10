@@ -8,32 +8,53 @@ namespace ObjectOrientedProject
 {
     class Vehicle
     {
-        protected int _ID;
+        static int _ID = 0;
         protected bool _isOnContract = false;
         protected bool _hasInsurance = false;
         protected int _rentCost;
-        protected string _type;
         protected string _brand;
         protected int _runningDistance;
-        Vehicle(int ID, bool isOnContract, bool hasInsurance, int rentCost, string type, string brand, int runningDistance)
+        public Vehicle(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance)
         {
-            ID = ID;
+            _ID++;
+            Console.WriteLine("Car with ID " + _ID + " created");
             isOnContract = _isOnContract;
             hasInsurance = _hasInsurance;
             rentCost = _rentCost;
-            type = _type;
             brand = _brand;
-            runningDistance = _runningDistance; 
+            runningDistance = _runningDistance;
         }
+        protected virtual void serviceEngine() { }
+        protected virtual void serviceTransmission() { }
+        protected virtual void serviceTires() { }
     }
 
     class PickupTruck : Vehicle
     {
         private int _tankSize;
-        PickupTruck( a, int tankSize)
+        PickupTruck(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int tankSize) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
         {
-            ID = a.ID;
             tankSize = _tankSize;
+            Console.WriteLine("Pickup truck added!");
+        }
+    }
+
+    class Sedan : Vehicle
+    {
+        private int _numberOfSeats;
+        Sedan(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int numberOfSeats) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
+        {
+            numberOfSeats = _numberOfSeats;
+        }
+    }
+
+    class SportsCar : Vehicle
+    {
+        private int _accelerationSpeed;
+        SportsCar(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int accelerationSpeed) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
+        {
+            accelerationSpeed = _accelerationSpeed;
+            Console.WriteLine("Sports car added!");
         }
     }
 }
