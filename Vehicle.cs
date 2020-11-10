@@ -7,7 +7,7 @@ namespace ObjectOrientedProject
 {
     abstract class Vehicle
     {
-        ServiceHistory _history;
+        ServiceHistory _history; //datetime, mô tả
         static int _ID = 0;
         protected bool _isOnContract = false;
         protected bool _hasInsurance = false;
@@ -43,7 +43,14 @@ namespace ObjectOrientedProject
         }
         protected override void serviceTires()
         {
-
+            if (_runningDistance > 4000)
+            {
+                /* _history.time = thời gian để vào đay
+                 * Console.Writeln("Sửa 4 bánh");
+                 * _runningDistance = 0;
+                 * Console
+                 */
+            }
         }
         PickupTruck(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int tankSize) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
         {
