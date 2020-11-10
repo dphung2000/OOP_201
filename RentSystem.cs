@@ -9,6 +9,11 @@ namespace ObjectOrientedProject
     class RentSystem : IRent
     {
 
+        public void serviceFleet() { 
+        /*
+        runs through 3 functions
+         */
+        }
         public int AddCar(string type, int rentCost, bool insurance)
         {
             int id = 0;

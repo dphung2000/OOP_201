@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace ObjectOrientedProject
 {
-    class Vehicle
+    abstract class Vehicle
     {
+        ServiceHistory _history;
         static int _ID = 0;
         protected bool _isOnContract = false;
         protected bool _hasInsurance = false;
@@ -16,6 +16,7 @@ namespace ObjectOrientedProject
         protected int _runningDistance;
         public Vehicle(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance)
         {
+            _history = new ServiceHistory();
             _ID++;
             Console.WriteLine("Car with ID " + _ID + " created");
             isOnContract = _isOnContract;
@@ -32,6 +33,18 @@ namespace ObjectOrientedProject
     class PickupTruck : Vehicle
     {
         private int _tankSize;
+        protected override void serviceEngine()
+        {
+
+        }
+        protected override void serviceTransmission()
+        {
+
+        }
+        protected override void serviceTires()
+        {
+
+        }
         PickupTruck(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int tankSize) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
         {
             tankSize = _tankSize;
@@ -42,6 +55,18 @@ namespace ObjectOrientedProject
     class Sedan : Vehicle
     {
         private int _numberOfSeats;
+        protected override void serviceEngine()
+        {
+            
+        }
+        protected override void serviceTransmission()
+        {
+            
+        }
+        protected override void serviceTires()
+        {
+            
+        }
         Sedan(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int numberOfSeats) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
         {
             numberOfSeats = _numberOfSeats;
@@ -51,6 +76,18 @@ namespace ObjectOrientedProject
     class SportsCar : Vehicle
     {
         private int _accelerationSpeed;
+        protected override void serviceEngine()
+        {
+
+        }
+        protected override void serviceTransmission()
+        {
+
+        }
+        protected override void serviceTires()
+        {
+
+        }
         SportsCar(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int accelerationSpeed) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
         {
             accelerationSpeed = _accelerationSpeed;
