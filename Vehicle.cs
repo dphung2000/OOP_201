@@ -1,97 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-namespace ObjectOrientedProject
+
+namespace OOP
 {
-    abstract class Vehicle
-    {
-        ServiceHistory _history;
-        static int _ID = 0;
-        protected bool _isOnContract = false;
-        protected bool _hasInsurance = false;
-        protected int _rentCost;
-        protected string _brand;
-        protected int _runningDistance;
-        public Vehicle(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance)
-        {
-            _history = new ServiceHistory();
-            _ID++;
-            Console.WriteLine("Car with ID " + _ID + " created");
-            isOnContract = _isOnContract;
-            hasInsurance = _hasInsurance;
-            rentCost = _rentCost;
-            brand = _brand;
-            runningDistance = _runningDistance;
-        }
-        protected virtual void serviceEngine() { }
-        protected virtual void serviceTransmission() { }
-        protected virtual void serviceTires() { }
-    }
+	class Vehicle
+	{
+		protected int ID;
+		protected bool isOnContract;
+		protected bool hasInsurance;
+		protected int rentCost;
+		protected int vehicleType;
+		protected ServiceHistory serviceHistory;
+		protected int currentKm;
+		protected int maxKmServiceEngine;
+		protected int maxKmServiceTransmission;
+		protected int maxKmServiceTires;
+		public bool needServiceEngine = false;
+		public bool needServiceTransmission = false;
+		public bool needServiceTires = false;
+		public Vehicle()
+		{
+			ID = -1;
+			isOnContract = false;
+			hasInsurance = false;
+			rentCost = -1;
+			vehicleType = -1;
+			serviceHistory = new ServiceHistory();
+			Record newRecordEngine = new Record(new DateTime(), "serviceEngine", 0, 0);
+			Record newRecordTransmission = new Record(new DateTime(), "serviceTransmission", 0, 0);
+			Record newRecordTire = new Record(new DateTime(), "serviceTires", 0, 0);
+			serviceHistory.addlistOfServiceEngine(newRecordEngine);
+			serviceHistory.addlistOfServiceTransmission(newRecordTransmission);
+			serviceHistory.addlistOfServiceTire(newRecordTire);
+			currentKm = 0;
+			maxKmServiceEngine = 0;
+			maxKmServiceTransmission = 0;
+			maxKmServiceTires = 0;
+			needServiceEngine = false;
+			needServiceTransmission = false;
+			needServiceTires = false;
+		}
 
-    class PickupTruck : Vehicle
-    {
-        private int _tankSize;
-        protected override void serviceEngine()
-        {
+		public Vehicle
+			(int _ID, bool _isOnContract, bool _hasInsurance, int _rentCost, int _vehicleType, int _currentKm, int _maxKmServiceEngine, int _maxKmServiceTransmission, int _maxKmServiceTires)
+		{
+			ID = _ID;
+			isOnContract = _isOnContract;
+			hasInsurance = _hasInsurance;
+			rentCost = _rentCost;
+			vehicleType = _vehicleType;
+			currentKm = _currentKm;
+			maxKmServiceEngine = _maxKmServiceEngine;
+			maxKmServiceTransmission = _maxKmServiceTransmission;
+			maxKmServiceTires = _maxKmServiceTires;
+			serviceHistory = new ServiceHistory();
+			Record newRecordEngine = new Record(new DateTime(), "serviceEngine", 0, this.ID);
+			Record newRecordTransmission = new Record(new DateTime(), "serviceTransmission", 0, this.ID);
+			Record newRecordTire = new Record(new DateTime(), "serviceTires", 0, this.ID);
+			serviceHistory.addlistOfServiceEngine(newRecordEngine);
+			serviceHistory.addlistOfServiceTransmission(newRecordTransmission);
+			serviceHistory.addlistOfServiceTire(newRecordTire);
+			if (currentKm > maxKmServiceEngine)
+				needServiceEngine = true;
+			if (currentKm > maxKmServiceTransmission)
+				needServiceTransmission = true;
+			if (currentKm > maxKmServiceTires)
+				needServiceTires = true;
+		}
 
-        }
-        protected override void serviceTransmission()
-        {
+		public static bool operator ==(Vehicle obj1, Vehicle obj2)
+		{
+			return obj1.ID == obj2.ID;
+		}
 
-        }
-        protected override void serviceTires()
-        {
+		public static bool operator !=(Vehicle obj1, Vehicle obj2)
+		{
+			return obj1.ID != obj2.ID;
+		}
 
-        }
-        PickupTruck(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int tankSize) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
-        {
-            tankSize = _tankSize;
-            Console.WriteLine("Pickup truck added!");
-        }
-    }
+		public virtual void serviceEngine() { }
+		public virtual void serviceTransmission() { }
+		public virtual void serviceTires() { }
+		public virtual void go() { }
+		public virtual void checkNeed() { }
+		public virtual Record getEngineRecord()
+		{
+			return this.serviceHistory.getRecordEngine();
+		}
+		public virtual Record getTransmissionRecord()
+		{
+			return this.serviceHistory.getRecordTransmission();
+		}
+		public virtual Record getTireRecord()
+		{
+			return this.serviceHistory.getRecordTire();
+		}
+	}
 
-    class Sedan : Vehicle
-    {
-        private int _numberOfSeats;
-        protected override void serviceEngine()
-        {
-            
-        }
-        protected override void serviceTransmission()
-        {
-            
-        }
-        protected override void serviceTires()
-        {
-            
-        }
-        Sedan(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int numberOfSeats) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
-        {
-            numberOfSeats = _numberOfSeats;
-        }
-    }
-
-    class SportsCar : Vehicle
-    {
-        private int _accelerationSpeed;
-        protected override void serviceEngine()
-        {
-
-        }
-        protected override void serviceTransmission()
-        {
-
-        }
-        protected override void serviceTires()
-        {
-
-        }
-        SportsCar(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int accelerationSpeed) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
-        {
-            accelerationSpeed = _accelerationSpeed;
-            Console.WriteLine("Sports car added!");
-        }
-    }
 }

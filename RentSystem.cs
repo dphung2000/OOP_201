@@ -1,46 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace ObjectOrientedProject
+namespace OOP
 {
-    class RentSystem : IRent
-    {
+	class RentSystem : Rent, IBookAndRent
+	{
 
-        public void serviceFleet() { 
-        /*
-        runs through 3 functions
-         */
-        }
-        public int AddCar(string type, int rentCost, bool insurance)
-        {
-            int id = 0;
-            Console.WriteLine("AddCar called, returns car id");
-            return id;
-        }
+		private LinkedList<Vehicle> listOfVehicle;
+		private LinkedList<Rent> listOfRent;
+		private string report;
 
-        public int AddContract(string name)
-        {
-            int id = 0;
-            Console.WriteLine("AddContract called, return contract id");
-            return id;
-        }
-        public bool AddCarToContract(int carID, int contractID)
-        {
-            Console.WriteLine("AddCarToContract called, Car added to a contract");
-            return false;
-        }
-        public bool RemoveCar(int carID)
-        {
-            Console.WriteLine("RemoveCar called, Car found and is not under any contract, so it is removed");
-            return true;
-        }
-        public bool EndContract(int contractID)
-        {
-            Console.WriteLine("EndContract called");
-            return true;
-        }
-    }
+		public RentSystem()
+		{
+			listOfVehicle = new LinkedList<Vehicle>();
+			listOfRent = new LinkedList<Rent>();
+			report = "";
+		}
+
+		public void addVehicle(int _ID, bool _isOnContract, bool _hasInsurance, int _rentCost, int _currentKm,  int _maxKmServiceEngine, int _maxKmServiceTransmission, int _maxKmServiceTires)
+		{
+			Vehicle newVehicle = new Car(_ID, _isOnContract, _hasInsurance, _rentCost,  _currentKm, _maxKmServiceEngine, _maxKmServiceTransmission, _maxKmServiceTires);
+			listOfVehicle.AddLast(newVehicle);
+		}
+		public void addRent(DateTime _date, string _renterName, int _IDrenter, string _address, string _jobber, string _payment)
+		{
+			Rent newRent = new Rent(_date, _renterName, _IDrenter, _address, _jobber, _payment);
+			listOfRent.AddLast(newRent);
+		}
+		public void serviceFleet()
+		{
+			LinkedListNode<Vehicle> node = listOfVehicle.First;
+			while (node != null)
+			{
+				node.Value.serviceEngine();
+				node.Value.serviceTransmission();
+				node.Value.serviceTires();
+			}
+		}
+		public void Book()
+		{
+			LinkedListNode<Rent> node = listOfRent.First;
+			while (node != null)
+			{
+				node.Value.Signed();
+			}
+		}
+
+		public void Rent()
+		{
+			if (signed && paid)
+			{
+				Console.WriteLine("Mr.{0} rented car with car's ID:{1}", renterName, ID);
+			}
+		}
+	}
 }
