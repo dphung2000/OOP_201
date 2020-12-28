@@ -5,26 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 namespace ObjectOrientedProject
 {
-    abstract class Vehicle
+    public abstract class Vehicle
     {
         ServiceHistory _history; //datetime, mô tả
-        static int _ID = 0;
+        protected int _ID = 0;
         protected bool _isOnContract = false;
-        protected bool _hasInsurance = false;
-        protected int _rentCost;
-        protected string _brand;
-        protected int _runningDistance;
-        public Vehicle(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance)
+        protected VehicleInsurance _insurance = null;
+        protected int _rentCost = 0;
+        protected string _brand = "None";
+        protected int _runningDistance = 0;
+        public Vehicle(int id, bool isOnContract, int rentCost, string brand, int runningDistance)
         {
             _history = new ServiceHistory();
-            _ID++;
+            _ID = id;
             Console.WriteLine("Car with ID " + _ID + " created");
-            isOnContract = _isOnContract;
-            hasInsurance = _hasInsurance;
-            rentCost = _rentCost;
-            brand = _brand;
-            runningDistance = _runningDistance;
+            _isOnContract = isOnContract;
+            _insurance = null;
+            _rentCost = rentCost;
+            _brand = brand;
+            _runningDistance = runningDistance;
         }
+        public int getCost() { return this._rentCost; }
+        public int getID() { return this._ID;  }
+        public void setOnContractFlag(bool contractFlag) { _isOnContract = contractFlag; }
+        public bool getOnContractFlag() { return _isOnContract; }
         protected virtual void serviceEngine() { }
         protected virtual void serviceTransmission() { }
         protected virtual void serviceTires() { }
@@ -32,7 +36,7 @@ namespace ObjectOrientedProject
 
     class PickupTruck : Vehicle
     {
-        private int _tankSize;
+        private int _tankSize = 0;
         protected override void serviceEngine()
         {
 
@@ -52,16 +56,16 @@ namespace ObjectOrientedProject
                  */
             }
         }
-        PickupTruck(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int tankSize) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
+        public PickupTruck(int id, bool isOnContract, int rentCost, string brand, int runningDistance, int tankSize) : base(id, isOnContract, rentCost, brand, runningDistance)
         {
-            tankSize = _tankSize;
-            Console.WriteLine("Pickup truck added!");
+            _tankSize = tankSize;
+            Console.WriteLine("Pickup truck added! Tank size is "+tankSize);
         }
     }
 
     class Sedan : Vehicle
     {
-        private int _numberOfSeats;
+        private int _numberOfSeats = 0;
         protected override void serviceEngine()
         {
             
@@ -74,15 +78,16 @@ namespace ObjectOrientedProject
         {
             
         }
-        Sedan(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int numberOfSeats) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
+        public Sedan(int id, bool isOnContract, int rentCost, string brand, int runningDistance, int numberOfSeats) : base(id, isOnContract, rentCost, brand, runningDistance)
         {
-            numberOfSeats = _numberOfSeats;
+            _numberOfSeats = numberOfSeats;
+            Console.WriteLine("Sedan added! Has "+numberOfSeats+" seats.");
         }
     }
 
     class SportsCar : Vehicle
     {
-        private int _accelerationSpeed;
+        private int _accelerationSpeed = 0;
         protected override void serviceEngine()
         {
 
@@ -95,10 +100,10 @@ namespace ObjectOrientedProject
         {
 
         }
-        SportsCar(bool isOnContract, bool hasInsurance, int rentCost, string brand, int runningDistance, int accelerationSpeed) : base(isOnContract, hasInsurance, rentCost, brand, runningDistance)
+        public SportsCar(int id, bool isOnContract, int rentCost, string brand, int runningDistance, int accelerationSpeed) : base(id, isOnContract, rentCost, brand, runningDistance)
         {
-            accelerationSpeed = _accelerationSpeed;
-            Console.WriteLine("Sports car added!");
+            _accelerationSpeed = accelerationSpeed;
+            Console.WriteLine("Sports car added! Acceleration speed is " + accelerationSpeed);
         }
     }
 }
